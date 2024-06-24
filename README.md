@@ -21,11 +21,6 @@ pip install -U "jax[cuda12]" flax optax matplotlib ml-collections
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 ```
 
-
-Optionally, install jupyter for running the explainer notebook:
-```bash
-pip install jupyter
-```
 ## Usage
 To fit an ENF to STL10 images, run the following script:
 ```bash
