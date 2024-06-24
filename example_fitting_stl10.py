@@ -7,16 +7,6 @@ import logging
 
 import matplotlib.pyplot as plt
 
-# For logging purposes, optional
-try:
-    import wandb
-    WANDB_AVAILABLE = True
-except ImportError:
-    WANDB_AVAILABLE = False
-    # We log images in a separate folder
-    import os
-    os.mkdir('recons')
-
 # Custom modules
 from enf.bi_invariant.Rn_bi_invariant import RnBiInvariant
 from enf.enf import EquivariantNeuralField
@@ -192,31 +182,24 @@ def main():
                 x_i, y_i, enf_params, meta_sgd_params, enf_opt_state, meta_sgd_opt_state, key)
 
             epoch_loss.append(loss)
-
-        # Reconstruct and log an image, perform inner loop
-        _, (p, c, g) = inner_loop([enf_params, meta_sgd_params], x_i, y_i, key)
-
-        # Reconstruct image
-        img_reconstructed = model.apply(enf_params, x, p, c, g)[0]
-
-        # Plot the original and reconstructed image
-        plt.figure()
-        plt.subplot(121)
-        plt.imshow(jnp.reshape(img[0], (img_shape)))
-        plt.title("Original")
-        plt.subplot(122)
-        plt.imshow(jnp.reshape(img_reconstructed, (img_shape)))
-        plt.title("Reconstructed")
-        if WANDB_AVAILABLE:
-            wandb.log({"ep_loss": sum(epoch_loss) / len(epoch_loss), "reconstructed": plt})
-        else:
-            plt.savefig(f'recons/recon-{epoch}-{i}.png')
-        plt.close('all')
+        
         logging.info(f"epoch {epoch} -- loss: {sum(epoch_loss) / len(epoch_loss)}")
 
-    if WANDB_AVAILABLE:
-        run.finish()
+    # Reconstruct and log an image, perform inner loop
+    _, (p, c, g) = inner_loop([enf_params, meta_sgd_params], x_i, y_i, key)
 
+    # Reconstruct image
+    img_reconstructed = model.apply(enf_params, x, p, c, g)[0]
+
+    # Plot the original and reconstructed image
+    plt.figure()
+    plt.subplot(121)
+    plt.imshow(jnp.reshape(img[0], (img_shape)))
+    plt.title("Original")
+    plt.subplot(122)
+    plt.imshow(jnp.reshape(img_reconstructed, (img_shape)))
+    plt.title("Reconstructed")
+    plt.show()
 
 if __name__ == "__main__":
     main()
