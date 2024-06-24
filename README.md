@@ -28,6 +28,7 @@ python example_fitting_stl10.py
 ```
 
 ## Resources
+* See this [notebook](https://colab.research.google.com/gist/david-knigge/8e38ace480e2fe19cfe52e2570e639dc/explainer_enf.ipynb) for a step-by-step guided implementation of ENFs for classification.
 * See the [project page](https://davidmknigge.nl/enf-page).
 
 ## Citation
