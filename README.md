@@ -11,7 +11,7 @@ The code is written in JAX and is designed to be as simple as possible to unders
 As such, this code isn't enough to reproduce the experimental results in the paper, we provide that code in a [separate repo]().
 
 Any questions, requests, comments, or suggestions, please feel free to open an issue or PR.
-___
+
 ## Installation
 The following lines will install all required dependencies, assuming CUDA 12 is installed:
 ```bash
@@ -26,16 +26,15 @@ Optionally, install jupyter for running the explainer notebook:
 ```bash
 pip install jupyter
 ```
-___
 ## Usage
 To fit an ENF to STL10 images, run the following script:
 ```bash
 python example_fitting_stl10.py
 ```
-___
+
 ## Resources
 * See the [project page](https://davidmknigge.nl/enf-page).
-___
+
 ## Citation
 If you find this code useful, please consider citing the original paper:
 ```
