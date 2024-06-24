@@ -60,10 +60,6 @@ def main():
     config.train.log_interval = 100
     logging.getLogger().setLevel(logging.INFO)
 
-    # Initialize wandb
-    if WANDB_AVAILABLE:
-        run = wandb.init(project="enf-min", entity="equivariance", job_type="train", config=config.to_dict())
-
     ##############################
     # Initializing the model
     ##############################
