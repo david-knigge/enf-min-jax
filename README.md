@@ -27,7 +27,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 ## Usage
 To run the Ombria segmentation experiment listed in Fig. 7, Tab. 4,
 ```bash
-export PYTHONPATH="." python experiments/ombria_segmentation.py
+export PYTHONPATH="."; python experiments/ombria_segmentation.py
 ```
 
 ## Resources
