@@ -8,23 +8,29 @@ In this repo, we provide a minimal representation of the Equivariant Neural Fiel
 
 The code is written in JAX and is designed to be as simple as possible to understand the core concepts of the ENF architecture, and be maximally extensible for your own shenanigans.
 
-As such, this code isn't enough to reproduce the experimental results in the paper, we provide that code in a [separate repo]().
+As such, this code isn't enough to reproduce the experimental results in the paper, we provide that code in a [separate repo](https://github.com/dafidofff/enf-jax).
 
 Any questions, requests, comments, or suggestions, please feel free to open an issue or PR.
+
+We'll be expanding on the list of example use-cases, currently this repo consists of:
+- Multi-modal segmentation on OMBRIA flood map dataset. See [this script](experiments/ombria_segmentation.py).
+
+## Notes on training ENFs
+We 
 
 ## Installation
 The following lines will install all required dependencies, assuming CUDA 12 is installed:
 ```bash
 conda create -n enf python=3.11
 conda activate enf
-pip install -U "jax[cuda12]" flax optax matplotlib ml-collections
+pip install -U "jax[cuda12]" flax optax matplotlib ml-collections pillow wandb
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 ```
 
 ## Usage
-To fit an ENF to STL10 images, run the following script:
+To run the Ombria segmentation experiment listed in Fig. 7, Tab. 4,
 ```bash
-python example_fitting_stl10.py
+export PYTHONPATH="." python experiments/ombria_segmentation.py
 ```
 
 ## Resources
