@@ -15,9 +15,6 @@ Any questions, requests, comments, or suggestions, please feel free to open an i
 We'll be expanding on the list of example use-cases, currently this repo consists of:
 - Multi-modal segmentation on OMBRIA flood map dataset. See [this script](experiments/ombria_segmentation.py).
 
-## Notes on training ENFs
-We 
-
 ## Installation
 The following lines will install all required dependencies, assuming CUDA 12 is installed:
 ```bash
