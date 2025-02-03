@@ -1,6 +1,6 @@
 # 💫 enf-min-jax: Minimal implementation of Equivariant Neural Fields in JAX with usage examples
 
-**Authors**: David M. Knigge*, David R. Wessels*, Riccardo Valperga, Samuele Papa, Sharvaree Vadgama, Efstratios Gavves, Erik J. Bekkers 
+**Authors**: David R. Wessels*, David M. Knigge*, Riccardo Valperga, Samuele Papa, Sharvaree Vadgama, Efstratios Gavves, Erik J. Bekkers 
 
 **equal contribution*
 ___
@@ -72,13 +72,12 @@ All experiments use Weights & Biases (wandb) for experiment tracking.
 Each experiment follows a similar two-stage training approach:
 
 1. **Pretraining Stage**:
-   - Train the ENF backbone to reconstruct input images
+   - Train the ENF backbone to reconstruct input images for MSE
    - Uses inner-loop optimization for latent variables
-   - Monitors reconstruction quality
 
 2. **Task-Specific Stage**:
-   - Freezes ENF backbone
-   - Trains task-specific head (classifier/segmentation/diffusion)
+   - Freezes ENF backbone, obtains latents using same inner loop as above
+   - Trains task-specific downstream model on the obtained latents (classification/segmentation/diffusion)
    - Uses normalized latent representations
 
 ## 📝 Citation
