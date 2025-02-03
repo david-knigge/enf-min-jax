@@ -73,6 +73,50 @@ def initialize_latents(
     return pose, context, window
 
 
+def initialize_latents_normal(
+    batch_size: int,
+    num_latents: int,
+    latent_dim: int,
+    data_dim: int,
+    bi_invariant_cls: Type,
+    key: Any,
+    window_scale: float = 2.0,
+    noise_scale: float = 0.1,
+) -> Tuple[jnp.ndarray, jnp.ndarray, jnp.ndarray]:
+    """Initialize the latent variables based on the bi-invariant type."""
+    key, subkey = jax.random.split(key)
+
+    if bi_invariant_cls == TranslationBI:
+        # For translation-only, positions are same dimension as data
+        pose = initialize_grid_positions(batch_size, num_latents, data_dim)
+        
+    elif bi_invariant_cls == RotoTranslationBI2D:
+        if data_dim != 2:
+            raise ValueError("RotoTranslationBI2D requires 2D data")
+        
+        # Initialize positions in 2D
+        positions_2d = initialize_grid_positions(batch_size, num_latents, 2)
+        
+        # Add orientation angle theta
+        key, subkey = jax.random.split(key)
+        theta = jax.random.uniform(subkey, (batch_size, num_latents, 1)) * 2 * jnp.pi
+        
+        # Concatenate positions and theta
+        pose = jnp.concatenate([positions_2d, theta], axis=-1)
+        
+    else:
+        raise ValueError(f"Unsupported bi-invariant type: {bi_invariant_cls}")
+
+    # Add random noise to positions
+    pose = pose + jax.random.normal(subkey, pose.shape) * noise_scale / jnp.sqrt(num_latents)
+
+    # Initialize context vectors and gaussian window
+    context = jax.random.normal(subkey, (batch_size, num_latents, latent_dim))
+    window = jnp.ones((batch_size, num_latents, 1)) * window_scale / jnp.sqrt(num_latents)
+    
+    return pose, context, window
+
+
 def create_coordinate_grid(img_shape: Tuple[int, ...], batch_size: int) -> jnp.ndarray:
     """Create a coordinate grid for the input space."""
     x = jnp.stack(jnp.meshgrid(

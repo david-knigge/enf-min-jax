@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 
 from datasets.ombria_dataset import Ombria
-from torchvision.datasets import MovingMNIST
+from torchvision.datasets import CIFAR10
 
 
 def image_to_numpy(image: Image) -> np.ndarray:
@@ -49,6 +49,10 @@ def get_dataloaders(dataset_name: str, batch_size: int, num_workers: int):
         transforms = torchvision.transforms.Compose([image_to_numpy])
         train_dset = Ombria(root="./data/ombria", split="train", transform=transforms, download=True)
         test_dset = Ombria(root="./data/ombria", split="test", transform=transforms, download=True)
+    elif dataset_name == "cifar10":
+        transforms = torchvision.transforms.Compose([image_to_numpy])
+        train_dset = CIFAR10(root="./data/cifar10", train=True, transform=transforms, download=True)
+        test_dset = CIFAR10(root="./data/cifar10", train=False, transform=transforms, download=True)
     elif dataset_name == "moving_mnist":
         raise NotImplementedError("Moving MNIST dataset not implemented yet.")
 

@@ -23,7 +23,7 @@ def get_config():
     # Define config
     config = ml_collections.ConfigDict()
     config.seed = 68
-    config.debug = True
+    config.debug = False
 
     # Reconstruction model
     config.recon_enf = ml_collections.ConfigDict()
@@ -55,7 +55,7 @@ def get_config():
     # Optimizer config
     config.optim = ml_collections.ConfigDict()
     config.optim.lr_enf = 5e-4
-    config.optim.inner_lr = (0., 120., 0.) # (pose, context, window)
+    config.optim.inner_lr = (0., 60., 0.) # (pose, context, window)
     config.optim.inner_steps = 3
     config.optim.first_order_maml = True
 
@@ -161,10 +161,6 @@ def main(_):
     # Initialize wandb
     run = wandb.init(project="enf-min", config=config.to_dict(), mode="online" if not config.debug else "dryrun")
 
-    ##############################
-    # Initializing the model
-    ##############################
-
     # Load dataset, get sample image, create corresponding coordinates
     train_dloader, test_dloader = get_dataloaders('ombria', config.train.batch_size, config.dataset.num_workers)
     sample_img, _ = next(iter(train_dloader))
@@ -233,14 +229,14 @@ def main(_):
             out = recon_enf.apply(enf_params, coords, *z)
             return jnp.sum(jnp.mean((out - sat_img) ** 2, axis=(1, 2)), axis=0)
 
-        def update_latents(z, _):
+        def inner_step(z, _):
             _, grads = jax.value_and_grad(mse_loss)(z)
             # Gradient descent update
             z = jax.tree.map(lambda z, grad, lr: z - lr * grad, z, grads, config.optim.inner_lr)
             return z, None
         
         # Perform inner loop optimization
-        z, _ = jax.lax.scan(update_latents, z, None, length=config.optim.inner_steps)
+        z, _ = jax.lax.scan(inner_step, z, None, length=config.optim.inner_steps)
 
         # Stop gradient if first order MAML
         if config.optim.first_order_maml:
