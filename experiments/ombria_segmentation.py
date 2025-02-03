@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import wandb
 
 # Custom imports
-from datasets import get_dataloaders
+from experiments.datasets import get_dataloaders
 from enf.model import EquivariantNeuralField
 from enf.bi_invariants import TranslationBI
 from enf.utils import create_coordinate_grid, initialize_latents

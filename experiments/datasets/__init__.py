@@ -3,7 +3,7 @@ import torchvision
 from PIL import Image
 import numpy as np
 
-from datasets.ombria_dataset import Ombria
+from experiments.datasets.ombria_dataset import Ombria
 from torchvision.datasets import CIFAR10
 
 

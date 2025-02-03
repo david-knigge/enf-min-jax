@@ -12,12 +12,12 @@ import matplotlib.pyplot as plt
 import wandb
 
 # Custom imports
-from datasets import get_dataloaders
+from experiments.datasets import get_dataloaders
 from enf.model import EquivariantNeuralField
 from enf.bi_invariants import TranslationBI
 from enf.utils import create_coordinate_grid, initialize_latents, initialize_latents_normal
 
-from downstream.diffusion_transformer_enf import DiT
+from experiments.downstream_models.diffusion_transformer_enf import DiT
 
 
 def get_config():
@@ -37,8 +37,9 @@ def get_config():
     config.recon_enf.freq_mult = (3.0, 5.0)
     config.recon_enf.k_nearest = 4
 
-    config.recon_enf.num_latents = 16
-    config.recon_enf.latent_dim = 64
+    # Latent space config, make sure the number of latents is a square number
+    config.recon_enf.num_latents = 64
+    config.recon_enf.latent_dim = 16
 
     # Diffusion model config
     config.diffusion = ml_collections.ConfigDict()
