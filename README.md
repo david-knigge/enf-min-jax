@@ -1,6 +1,6 @@
 # 💫 enf-min-jax: Minimal implementation of Equivariant Neural Fields in JAX with usage examples
 
-**Authors**: David M. Knigge*, David R. Wessels*, Riccardo Valperga, Samuele Papa, Sharvaree Vadgama, Efstratios Gavves, Erik J. Bekkers 
+**Authors**: David R. Wessels*, David M. Knigge*, Riccardo Valperga, Samuele Papa, Sharvaree Vadgama, Efstratios Gavves, Erik J. Bekkers 
 
 **equal contribution*
 ___
